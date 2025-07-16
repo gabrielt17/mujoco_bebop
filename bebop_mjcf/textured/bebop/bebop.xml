@@ -1,0 +1,72 @@
+<mujoco model="bebop">
+  <compiler angle="radian" inertiafromgeom="false"/>
+  <option timestep="0.005" gravity="0 0 -9.81"/>
+
+  <visual>
+    <global azimuth="120" elevation="-20"/>
+    <headlight ambient="0.4 0.4 0.4" diffuse="0.8 0.8 0.8" specular="0.1 0.1 0.1"/>
+  </visual>
+
+  <default>
+    <default class="visual">
+      <geom group="1" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" rgba="0.1 0.1 0.1 1"/>
+    </default>
+  </default>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture name="groundplane" type="2d" builtin="checker" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" width="300" height="300"/>
+    <material name="ground" texture="groundplane" texrepeat="5 5" reflectance="0.2"/>
+
+    <material name="14_-_Default_0" specular="0.0" shininess="0.0" rgba="0.000000 0.000000 0.000000 1.000000"/>
+    <material name="Mat_0" specular="0.0" shininess="0.0" rgba="0.920270 0.920270 0.920270 1.000000"/>
+    <material name="Material.002_0" specular="0.0" shininess="0.0" rgba="0.069803 0.069803 0.069803 1.000000"/>
+
+    <mesh name="bebop_mesh_0" file="bebop_0.obj"/>
+    <mesh name="bebop_mesh_1" file="bebop_1.obj"/>
+    <mesh name="bebop_mesh_2" file="bebop_2.obj"/>
+  </asset>
+
+  <worldbody>
+    <light name="main_light" diffuse=".5 .5 .5" pos="0 0 5" dir="0 0 -1" directional="true"/>
+    <geom name="floor" size="5 5 0.1" type="plane" material="ground"/>
+
+    <body name="bebop" pos="0 0 1">
+      <freejoint name="root"/> 
+
+      <inertial pos="0 0 0" mass="0.42" diaginertia="0.0025 0.0025 0.004"/>
+
+      <site name="actuation_center" pos="0 0 0" size="0.01"/>
+
+      <geom name="mesh0" mesh="bebop_mesh_0" material="Mat_0" class="visual"/>
+      <geom name="mesh1" mesh="bebop_mesh_1" material="Material.002_0" class="visual"/>
+      <geom name="mesh2" mesh="bebop_mesh_2" material="14_-_Default_0" class="visual"/>
+
+      <geom name="body_col" type="box" size="0.13 0.13 0.04" pos="0 0 0" class="collision"/>
+      
+      <geom name="FR_stem_col" type="capsule" fromto="0.0 0.0 0  0.16 0.16 0" size="0.015" class="collision"/>
+      <geom name="FL_stem_col" type="capsule" fromto="0.0 0.0 0 -0.16 0.16 0" size="0.015" class="collision"/>
+      <geom name="RR_stem_col" type="capsule" fromto="0.0 0.0 0  0.16 -0.16 0" size="0.015" class="collision"/>
+      <geom name="RL_steam_col" type="capsule" fromto="0.0 0.0 0 -0.16 -0.16 0" size="0.015" class="collision"/>
+
+      <geom name="FR_pad_col" type="sphere" size="0.02" pos="0.17 0.17 -0.04" class="collision"/>
+      <geom name="FL_pad_col" type="sphere" size="0.02" pos="-0.17 0.17 -0.04" class="collision"/>
+      <geom name="RR_pad_col" type="sphere" size="0.02" pos="0.17 -0.17 -0.04" class="collision"/>
+      <geom name="RL_pad_col" type="sphere" size="0.02" pos="-0.17 -0.17 -0.04" class="collision"/>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <motor name="body_thrust" site="actuation_center" gear="0 0 9.156 0 0 0" ctrlrange="0 1"/>
+
+    <motor name="x_moment" site="actuation_center" gear="0 0 0 0.0375 0 0" ctrlrange="-0.0001 0.0001"/>
+    
+    <motor name="y_moment" site="actuation_center" gear="0 0 0 0 0.0375 0" ctrlrange="-0.0001 0.0001"/>
+
+    <motor name="z_moment" site="actuation_center" gear="0 0 0 0 0 0.0200" ctrlrange="-0.0001 0.0001"/>
+  </actuator>
+
+</mujoco>
