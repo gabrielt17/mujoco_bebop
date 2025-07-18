@@ -1,4 +1,4 @@
-<mujoco model="bebop_posicao_final">
+<mujoco model="bebop">
   <compiler angle="radian" inertiafromgeom="false" meshdir="."/>
   <option timestep="0.002" gravity="0 0 -9.81"/>
 
@@ -34,7 +34,7 @@
 
   <worldbody>
     <light name="main_light" pos="0 0 5" dir="0 0 -1" directional="true"/>
-    <geom name="floor" size="5 5 0.1" type="plane" material="ground"/>
+    <geom name="floor" size="0 0 0.05" type="plane" material="ground"/>
 
     <body name="bebop" pos="0 0 0.5">
       <freejoint name="root"/>
@@ -57,25 +57,25 @@
 
       <body name="prop_FL" pos="0.11 0.135 0.0061">
         <joint name="joint_prop_FL" type="hinge" axis="0 0 1" damping="0.001"/>
-        <inertial pos="0 0 0" mass="0.005" diaginertia="4.5e-6 4.5e-6 9e-6"/>
+        <inertial pos="-0.11 -0.135 -0.0061" mass="1E-15" diaginertia="1E-12 1E-12 1E-12"/>
         <geom type="mesh" mesh="helice_branca_mesh" material="material_helice_branca" class="visual"/>
       </body>
 
       <body name="prop_FR" pos="0.11 -0.135 0.0061">
         <joint name="joint_prop_FR" type="hinge" axis="0 0 -1" damping="0.001"/>
-        <inertial pos="0 0 0" mass="0.005" diaginertia="4.5e-6 4.5e-6 9e-6"/>
+        <inertial pos="-0.11 0.135 -0.0061" mass="1E-15" diaginertia="1E-12 1E-12 1E-12"/>
         <geom type="mesh" mesh="helice_branca_mesh" material="material_helice_branca" class="visual"/>
       </body>
 
       <body name="prop_RL" pos="-0.116 0.135 0.0061">
         <joint name="joint_prop_RL" type="hinge" axis="0 0 -1" damping="0.001"/>
-        <inertial pos="0 0 0" mass="0.005" diaginertia="4.5e-6 4.5e-6 9e-6"/>
+        <inertial pos="0.116 -0.135 -0.0061" mass="1E-15" diaginertia="1E-12 1E-12 1E-12"/>
         <geom type="mesh" mesh="helice_preta_mesh" material="material_helice_preta" class="visual"/>
       </body>
 
       <body name="prop_RR" pos="-0.116 -0.135 0.0061">
         <joint name="joint_prop_RR" type="hinge" axis="0 0 1" damping="0.001"/>
-        <inertial pos="0 0 0" mass="0.005" diaginertia="4.5e-6 4.5e-6 9e-6"/>
+        <inertial pos="0.116 0.135 -0.0061" mass="1E-15" diaginertia="1E-12 1E-12 1E-12"/>
         <geom type="mesh" mesh="helice_preta_mesh" material="material_helice_preta" class="visual"/>
       </body>
     </body>
@@ -94,10 +94,10 @@
     <motor name="y_moment" site="actuation_center" gear="0 0 0 0 -0.00375 0" ctrlrange="-1 1"/>
     <motor name="z_moment" site="actuation_center" gear="0 0 0 0 0 -0.00200" ctrlrange="-1 1"/>
 
-    <motor name="motor_prop_FL" joint="joint_prop_FL" gear="0.1" ctrlrange="-1 1"/>
-    <motor name="motor_prop_FR" joint="joint_prop_FR" gear="0.1" ctrlrange="-1 1"/>
-    <motor name="motor_prop_RL" joint="joint_prop_RL" gear="0.1" ctrlrange="-1 1"/>
-    <motor name="motor_prop_RR" joint="joint_prop_RR" gear="0.1" ctrlrange="-1 1"/>
+    <motor name="motor_prop_FL" joint="joint_prop_FL" gear="0.01" ctrlrange="-1 1"/>
+    <motor name="motor_prop_FR" joint="joint_prop_FR" gear="0.01" ctrlrange="-1 1"/>
+    <motor name="motor_prop_RL" joint="joint_prop_RL" gear="0.01" ctrlrange="-1 1"/>
+    <motor name="motor_prop_RR" joint="joint_prop_RR" gear="0.01" ctrlrange="-1 1"/>
   </actuator>
 
 </mujoco>
