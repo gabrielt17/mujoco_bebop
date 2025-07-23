@@ -1,0 +1,137 @@
+<mujoco model="bebop_rope">
+  <compiler angle="radian" inertiafromgeom="true" meshdir="." />
+  <option timestep="0.002" gravity="0 0 -9.81" />
+
+  <extension>
+    <plugin plugin="mujoco.elasticity.cable" />
+  </extension>
+
+  <visual>
+    <global azimuth="120" elevation="-20" />
+    <headlight ambient="0.4 0.4 0.4" diffuse="0.8 0.8 0.8" specular="0.1 0.1 0.1" />
+  </visual>
+
+  <default>
+    <default class="visual">
+      <geom group="1" type="mesh" contype="0" conaffinity="0" mass="0" />
+    </default>
+    <default class="collision">
+      <geom group="3" rgba="0 0.5 1 0.4" mass="0.047" />
+    </default>
+    <default class="ghost">
+      <geom group="2" density="1e-15" mass="1e-9" rgba="0.5 1 0.5 0" />
+    </default>
+  </default>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512"
+      height="3072" />
+    <texture name="groundplane" type="2d" builtin="checker" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
+      width="300" height="300" />
+    <material name="ground" texture="groundplane" texrepeat="5 5" reflectance="0.2" />
+    <material name="Mat_0" specular="0.0" shininess="0.0" rgba="0.920270 0.920270 0.920270 1.000000" />
+    <material name="Material.002_0" specular="0.0" shininess="0.0"
+      rgba="0.069803 0.069803 0.069803 1.000000" />
+    <material name="14_-_Default_0" specular="0.0" shininess="0.0"
+      rgba="0.000000 0.000000 0.000000 1.000000" />
+    <material name="material_helice_branca" shininess="0" specular="0" rgba="1 1 1 1" />
+    <material name="material_helice_preta" shininess="0" specular="0" rgba="0.1 0.1 0.1 1" />
+    <mesh name="corpo_bebop_0_mesh" file="corpo_bebop_0.obj" />
+    <mesh name="corpo_bebop_1_mesh" file="corpo_bebop_1.obj" />
+    <mesh name="corpo_bebop_2_mesh" file="corpo_bebop_2.obj" />
+    <mesh name="helice_branca_mesh" file="helice_branca.obj" />
+    <mesh name="helice_preta_mesh" file="helice_preta.obj" />
+  </asset>
+
+  <worldbody>
+    <light name="main_light" pos="0 0 5" dir="0 0 -1" directional="true" />
+    <geom name="floor" size="0 0 0.05" type="plane" material="ground" />
+
+    <body name="bebop" pos="0 0 0.5">
+      <freejoint name="root" />
+      <site name="actuation_center" pos="0 0 0" size="0.01" />
+
+      <geom mesh="corpo_bebop_0_mesh" material="Mat_0" class="visual" />
+      <geom mesh="corpo_bebop_1_mesh" material="Material.002_0" class="visual" />
+      <geom mesh="corpo_bebop_2_mesh" material="14_-_Default_0" class="visual" />
+
+      <geom name="body_col" type="box" size="0.13 0.13 0.02" pos="0 0 0.01" class="collision" />
+
+      <geom name="FR_stem_col" type="capsule" fromto="0 0 0  0.16 0.16 0" size="0.015"
+        class="collision" />
+      <geom name="FL_stem_col" type="capsule" fromto="0 0 0 -0.16 0.16 0" size="0.015"
+        class="collision" />
+      <geom name="RR_stem_col" type="capsule" fromto="0 0 0  0.16 -0.16 0" size="0.015"
+        class="collision" />
+      <geom name="RL_stem_col" type="capsule" fromto="0 0 0 -0.16 -0.16 0" size="0.015"
+        class="collision" />
+
+      <geom name="FR_pad_col" type="sphere" size="0.02" pos="0.17 0.17 -0.04" class="collision" />
+      <geom name="FL_pad_col" type="sphere" size="0.02" pos="-0.17 0.17 -0.04" class="collision" />
+      <geom name="RR_pad_col" type="sphere" size="0.02" pos="0.17 -0.17 -0.04" class="collision" />
+      <geom name="RL_pad_col" type="sphere" size="0.02" pos="-0.17 -0.17 -0.04" class="collision" />
+
+      <body name="prop_FL" pos="0.11 0.135 0.0061">
+        <joint name="joint_prop_FL" type="hinge" axis="0 0 1" damping="0.001" />
+        <geom type="mesh" mesh="helice_branca_mesh" material="material_helice_branca" class="visual" />
+        <geom type="cylinder" size="0.06 0.003" class="ghost" />
+      </body>
+      <body name="prop_FR" pos="0.11 -0.135 0.0061">
+        <joint name="joint_prop_FR" type="hinge" axis="0 0 -1" damping="0.001" />
+        <geom type="mesh" mesh="helice_branca_mesh" material="material_helice_branca" class="visual" />
+        <geom type="cylinder" size="0.06 0.003" class="ghost" />
+      </body>
+      <body name="prop_RL" pos="-0.116 0.135 0.0061">
+        <joint name="joint_prop_RL" type="hinge" axis="0 0 -1" damping="0.001" />
+        <geom type="mesh" mesh="helice_preta_mesh" material="material_helice_preta" class="visual" />
+        <geom type="cylinder" size="0.06 0.003" class="ghost" />
+      </body>
+      <body name="prop_RR" pos="-0.116 -0.135 0.0061">
+        <joint name="joint_prop_RR" type="hinge" axis="0 0 1" damping="0.001" />
+        <geom type="mesh" mesh="helice_preta_mesh" material="material_helice_preta" class="visual" />
+        <geom type="cylinder" size="0.06 0.003" class="ghost" />
+      </body>
+
+      <composite type="cable" curve="s" count="20 1 1" size="0.5">
+        <plugin plugin="mujoco.elasticity.cable">
+          <config key="twist" value="1e3" />
+          <config key="bend" value="1e4" />
+        </plugin>
+        <joint kind="main" damping="0.015" />
+        <geom type="capsule" size=".005" rgba=".8 .2 .1 1" condim="1" />
+      </composite>
+
+    </body>
+
+    <body name="payload" pos="0.5 0 0.5">
+      <freejoint />
+      <geom name="payload_geom" type="box" size="0.05 0.01 0.05" rgba="1 1 0 1"/>
+    </body>
+
+  </worldbody>
+
+<equality>
+    <connect body1="B_last" body2="payload" active="true" anchor="0 0 0" />
+</equality>
+
+  <contact>
+    <exclude body1="bebop" body2="prop_FL" />
+    <exclude body1="bebop" body2="prop_FR" />
+    <exclude body1="bebop" body2="prop_RL" />
+    <exclude body1="bebop" body2="prop_RR" />
+    <exclude body1="B_last" body2="payload"/>
+  </contact>
+
+  <actuator>
+    <motor name="body_thrust" site="actuation_center" gear="0 0 10.3005 0 0 0" ctrlrange="0 1" />
+    <motor name="x_moment" site="actuation_center" gear="0 0 0 -0.00375 0 0" ctrlrange="-1 1" />
+    <motor name="y_moment" site="actuation_center" gear="0 0 0 0 -0.00375 0" ctrlrange="-1 1" />
+    <motor name="z_moment" site="actuation_center" gear="0 0 0 0 0 -0.00200" ctrlrange="-1 1" />
+
+    <motor name="motor_prop_FL" joint="joint_prop_FL" gear="0.01" ctrlrange="-1 1" />
+    <motor name="motor_prop_FR" joint="joint_prop_FR" gear="0.01" ctrlrange="-1 1" />
+    <motor name="motor_prop_RL" joint="joint_prop_RL" gear="0.01" ctrlrange="-1 1" />
+    <motor name="motor_prop_RR" joint="joint_prop_RR" gear="0.01" ctrlrange="-1 1" />
+  </actuator>
+
+</mujoco>
